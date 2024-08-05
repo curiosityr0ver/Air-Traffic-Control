@@ -15,14 +15,12 @@ const FlightLegSchema = new Schema({
 // Flight Schema
 const FlightSchema = new Schema({
     flightNumber: { type: String, required: true, unique: true },
-    airline: { type: String, required: true },
+    airline: { type: Schema.Types.ObjectId, ref: 'Airline', required: true },
     departure: { type: FlightLegSchema, required: true },
     arrival: { type: FlightLegSchema, required: true },
-    aircraft: { type: String, required: true },
+    aircraft: { type: Schema.Types.ObjectId, ref: 'Aircraft', required: true },
     status: { type: String, enum: ['Scheduled', 'Delayed', 'In Air', 'Landed', 'Cancelled'], default: 'Scheduled' }
 });
 
-// Create models
 const Flight = mongoose.model('Flight', FlightSchema);
-
-module.exports = { Airport, Flight };
+module.exports = { Flight };

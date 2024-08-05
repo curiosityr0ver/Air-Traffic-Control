@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-import { Passenger } from './Passenger';
 
 // Airport Schema
 const AirportSchema = new Schema({
