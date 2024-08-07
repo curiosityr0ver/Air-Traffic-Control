@@ -22,6 +22,12 @@ mongoose.connect(MONGO_URI)
 
 // Routes
 app.use('/airlines', AirlineRouter);
+app.use('*', (req, res, next) => {
+    const error = new Error('Resource not found');
+    error.statusCode = 404;
+    next(error);
+
+});
 app.use(errorHandler);
 
 

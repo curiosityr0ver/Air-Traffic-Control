@@ -2,6 +2,7 @@ const express = require('express');
 
 const { Airline } = require('../models/Airline');
 
+
 const router = express.Router();
 
 // Get all airlines
@@ -32,6 +33,7 @@ const getAirlineById = (req, res, next) => {
 // Create an airline
 const createAirline = (req, res, next) => {
     const airlineData = req.body;
+
     const airline = new Airline(airlineData);
     airline.save()
         .then(() => {
@@ -43,7 +45,6 @@ const createAirline = (req, res, next) => {
         }
         );
 };
-
 
 // Update an airline
 const updateAirline = (req, res, next) => {
