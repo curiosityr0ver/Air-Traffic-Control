@@ -42,8 +42,7 @@ const createAirline = (req, res, next) => {
         .catch(err => {
             err.status = 400;
             next(err);
-        }
-        );
+        });
 };
 
 // Update an airline
