@@ -1,20 +1,65 @@
 const express = require('express');
 
 const { Airline } = require('../models/Airline');
+const { Flight } = require('../models/Flight');
+const { Airport } = require('../models/Airport');
 
 
 const router = express.Router();
 
 // Get all airlines
-const getAirlines = (req, res, next) => {
-    Airline.find()
-        .then(airlines => {
-            res.json(airlines);
-        })
-        .catch(err => {
-            next(err);
+const getAirlines = async (req, res, next) => {
+    try {
+        const { name, country, airport } = req.query;
+        let query = {};
+
+        if (name) query.name = { $regex: name, $options: 'i' };
+        if (country) query.country = { $regex: country, $options: 'i' };
+
+        let airlines;
+
+        if (airport) {
+            // Use aggregation to find airlines with flights to/from the specified airport
+            airlines = await Airline.aggregate([
+                {
+                    $lookup: {
+                        from: 'flights',
+                        let: { airlineId: '$_id' },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: { $eq: ['$airline', '$$airlineId'] },
+                                    $or: [
+                                        { 'departure.airport': airport },
+                                        { 'arrival.airport': airport }
+                                    ]
+                                }
+                            }
+                        ],
+                        as: 'flights'
+                    }
+                },
+                {
+                    $match: {
+                        ...query,
+                        flights: { $not: { $size: 0 } }
+                    }
+                },
+                {
+                    $project: {
+                        flights: 0 // Remove the flights array from the result
+                    }
+                }
+            ]);
+        } else {
+            // If no airport specified, use the simple find query
+            airlines = await Airline.find(query);
         }
-        );
+
+        res.status(200).json(airlines);
+    } catch (err) {
+        next(err);
+    }
 };
 
 // Get a single airline

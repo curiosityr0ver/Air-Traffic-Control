@@ -21,7 +21,9 @@ mongoose.connect(MONGO_URI)
     .catch(err => console.error('Could not connect to MongoDB', err));
 
 // Routes
+app.use('/flights', AirlineRouter);
 app.use('/airlines', AirlineRouter);
+
 app.use('*', (req, res, next) => {
     const error = new Error('Resource not found');
     error.statusCode = 404;
