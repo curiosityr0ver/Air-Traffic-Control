@@ -1,7 +1,6 @@
 const express = require('express');
 
 const { Airline } = require('../models/Airline');
-const { Flight } = require('../models/Flight');
 const { Airport } = require('../models/Airport');
 
 
@@ -19,6 +18,18 @@ const getAirlines = async (req, res, next) => {
         let airlines;
 
         if (airport) {
+            // Validate airport code length
+            if (airport.length !== 3) {
+                return res.status(400).json({ message: 'Airport code must be 3 characters long' });
+            }
+
+            // Find the airport document
+            const airportDoc = await Airport.findOne({ code: airport.toUpperCase() });
+
+            if (!airportDoc) {
+                return res.status(404).json({ message: 'Airport not found' });
+            }
+
             // Use aggregation to find airlines with flights to/from the specified airport
             airlines = await Airline.aggregate([
                 {
@@ -30,8 +41,8 @@ const getAirlines = async (req, res, next) => {
                                 $match: {
                                     $expr: { $eq: ['$airline', '$$airlineId'] },
                                     $or: [
-                                        { 'departure.airport': airport },
-                                        { 'arrival.airport': airport }
+                                        { 'departure.airport': airportDoc._id },
+                                        { 'arrival.airport': airportDoc._id }
                                     ]
                                 }
                             }
