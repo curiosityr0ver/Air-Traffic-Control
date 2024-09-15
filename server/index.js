@@ -7,6 +7,7 @@ require('dotenv').config();
 // Local imports
 const AirlineRouter = require('./controllers/Airline');
 const FlightRouter = require('./controllers/Flight');
+const AircraftRouter = require('./controllers/Aircraft');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -22,8 +23,10 @@ mongoose.connect(MONGO_URI)
     .catch(err => console.error('Could not connect to MongoDB', err));
 
 // Routes
-app.use('/flights', FlightRouter);
-app.use('/airlines', AirlineRouter);
+app.use('/flight', FlightRouter);
+app.use('/airline', AirlineRouter);
+app.use('/aircraft', AircraftRouter);
+
 
 app.use('*', (req, res, next) => {
     const error = new Error('Resource not found');
