@@ -9,6 +9,7 @@ const AirlineRouter = require('./controllers/Airline');
 const FlightRouter = require('./controllers/Flight');
 const AircraftRouter = require('./controllers/Aircraft');
 const AirportRouter = require('./controllers/Airport');
+const ConfigRouter = require('./controllers/Config');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/flight', FlightRouter);
 app.use('/airline', AirlineRouter);
 app.use('/aircraft', AircraftRouter);
 app.use('/airport', AirportRouter);
+app.use('/config', ConfigRouter);
 
 
 app.use('*', (req, res, next) => {
