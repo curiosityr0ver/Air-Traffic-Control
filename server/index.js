@@ -8,6 +8,7 @@ require('dotenv').config();
 const AirlineRouter = require('./controllers/Airline');
 const FlightRouter = require('./controllers/Flight');
 const AircraftRouter = require('./controllers/Aircraft');
+const AirportRouter = require('./controllers/Airport');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -26,6 +27,7 @@ mongoose.connect(MONGO_URI)
 app.use('/flight', FlightRouter);
 app.use('/airline', AirlineRouter);
 app.use('/aircraft', AircraftRouter);
+app.use('/airport', AirportRouter);
 
 
 app.use('*', (req, res, next) => {

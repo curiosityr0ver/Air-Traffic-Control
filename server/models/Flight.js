@@ -24,3 +24,27 @@ const FlightSchema = new Schema({
 
 const Flight = mongoose.model('Flight', FlightSchema);
 module.exports = { Flight };
+
+// Sample Flight Data
+// {
+//     "flightNumber": "AA123",
+//     "airline": "5f7d1a8b4a7c3e0d9c2b8b7c",
+//     "departure": {
+//         "airport": "5f7d1a8b4a7c3e0d9c2b8b7d",
+//         "scheduledTime": "2020-10-06T11:30:00Z",
+//         "terminal": "A",
+//         "gate": "A1",
+//         "runway": "A1",
+//         "status": "Scheduled"
+//     },
+//     "arrival": {
+//         "airport": "5f7d1a8b4a7c3e0d9c2b8b7e",
+//         "scheduledTime": "2020-10-06T13:30:00Z",
+//         "terminal": "B",
+//         "gate": "B1",
+//         "runway": "B1",
+//         "status": "Scheduled"
+//     },
+//     "aircraft": "5f7d1a8b4a7c3e0d9c2b8b7f",
+//     "status": "Scheduled"
+// }

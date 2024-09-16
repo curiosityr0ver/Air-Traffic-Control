@@ -13,3 +13,13 @@ const AirportSchema = new Schema({
 const Airport = mongoose.model('Airport', AirportSchema);
 
 module.exports = { Airport };
+
+// Sample Airport Data
+// {
+//     "code": "LAX",
+//     "name": "Los Angeles International Airport",
+//     "city": "Los Angeles",
+//     "country": "United States",
+//     "timezone": "PST"
+// }
+
