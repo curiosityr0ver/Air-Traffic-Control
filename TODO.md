@@ -3,7 +3,9 @@
 
 - [ ] Log all the errors and store them locally
 - [ ] make a route to find all the countries and airports an airline operates in
-- [ ] add the ability to insert data in bulk using csv or json
+- [x] add the ability to insert data in bulk using csv or json
+- [ ] dockerize the application
+- [ ] scale it using kubernetes
 
 ### Long Term
 
