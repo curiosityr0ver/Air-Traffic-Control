@@ -6,7 +6,12 @@
 - [x] add the ability to insert data in bulk using csv or json
 - [ ] dockerize the application
 - [ ] scale it using kubernetes
+- [ ] add postman documentation in the welcome route
+- [ ] implement rate limiting
+- [ ] store credentials on mongo, and migrate rest to postgres
 
 ### Long Term
 
 - [ ] Implement docker, rate limiting, ==store past 7 days== server logs
+- [ ] Make an app to craft referral requests, emails etc
+- [ ] Make an NPM module

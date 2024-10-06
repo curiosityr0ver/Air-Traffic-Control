@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 // Local imports
+const WelcomeRouter = require('./controllers/Welcome');
 const AirlineRouter = require('./controllers/Airline');
 const FlightRouter = require('./controllers/Flight');
 const AircraftRouter = require('./controllers/Aircraft');
@@ -25,6 +26,7 @@ mongoose.connect(MONGO_URI)
     .catch(err => console.error('Could not connect to MongoDB', err));
 
 // Routes
+app.use('/', WelcomeRouter);
 app.use('/flight', FlightRouter);
 app.use('/airline', AirlineRouter);
 app.use('/aircraft', AircraftRouter);
