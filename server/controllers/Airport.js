@@ -1,13 +1,14 @@
 const express = require('express');
-const { Airport } = require('../models/Airport');
+const db = require('../database/pg');
 
 const router = express.Router();
 
 // Get all airports
 const getAirports = async (req, res, next) => {
     try {
-        const airports = await Airport.find();
-        res.json(airports);
+        const airports = await db.query(db.AirportQuery.getAirports);
+        res.json(airports.rows);
+
     } catch (err) {
         next(err);
     }
