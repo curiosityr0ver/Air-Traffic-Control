@@ -29,9 +29,9 @@ const getAirportById = async (req, res, next) => {
 // Create an airport
 const createAirport = async (req, res, next) => {
     const airportData = req.body;
-    //validate using joi schema later
     try {
-        console.log("Here at createAirport");
+        const { error } = Airport.validate(airportData);
+        if (error) throw error;
         const airport = await db.query(db.AirportQuery.createAirport, Object.values(airportData));
         res.status(201).json(airport.rows[0]);
     } catch (err) {
@@ -41,11 +41,15 @@ const createAirport = async (req, res, next) => {
 
 // Update an airport
 const updateAirport = async (req, res, next) => {
+    const airportData = req.body;
+    const airportId = req.params.id;
+    console.log([airportId, ...Object.values(airportData)]);
     try {
-        const airport = await Airport.findByIdAndUpdate
-            (req.params.id, req.body);
-        if (!airport) return res.status(404).send('Airport not found');
-        res.json(airport);
+        const { error } = Airport.validate(airportData);
+        if (error) throw error;
+        const airport = await db.query(db.AirportQuery.updateAirport, [airportId, ...Object.values(airportData)]);
+        if (airport.rowCount === 0) return res.status(404).send('Airport not found');
+        res.json(airport.rows[0]);
     }
     catch (err) {
         next(err);
