@@ -29,20 +29,12 @@ const getAirportById = async (req, res, next) => {
 // Create an airport
 const createAirport = async (req, res, next) => {
     const airportData = req.body;
-    //validate using joi schema
+    //validate using joi schema later
     try {
         console.log("Here at createAirport");
-        // const { error } = Airport.validate(airportData);
-        // if (error) {
-        //     const err = new Error(error.details[0].message);
-        //     err.status = 400;
-        //     throw err;
-        // }
-
-        const airport = db.query(db.AirportQuery.createAirport, Object.values(airportData));
+        const airport = await db.query(db.AirportQuery.createAirport, Object.values(airportData));
         res.status(201).json(airport.rows[0]);
     } catch (err) {
-        err.status = 400;
         next(err);
     }
 };

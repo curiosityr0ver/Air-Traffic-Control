@@ -1,9 +1,6 @@
 function errorHandler(err, req, res, next) {
-    err = {
-        statusCode: err.statusCode || 500,
-        message: err.message || 'Something went wrong'
-    };
-    res.status(err.statusCode).json(err);
+    console.log("Error handler called");
+    res.status(400).json(err);
 }
 
 

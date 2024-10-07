@@ -9,6 +9,7 @@
 - [ ] add postman documentation in the welcome route
 - [ ] implement rate limiting
 - [ ] store credentials on mongo, and migrate rest to postgres
+- [ ] change error response to be more or less detailed depending on prod or dev
 
 ### Long Term
 
