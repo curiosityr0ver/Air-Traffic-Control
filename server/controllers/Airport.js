@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../database/pg');
+const Airport = require('../models/Airport');
 
 const router = express.Router();
 
@@ -28,11 +29,18 @@ const getAirportById = async (req, res, next) => {
 // Create an airport
 const createAirport = async (req, res, next) => {
     const airportData = req.body;
-
-    const airport = new Airport(airportData);
+    //validate using joi schema
     try {
-        await airport.save();
-        res.status(201).send(airport);
+        console.log("Here at createAirport");
+        // const { error } = Airport.validate(airportData);
+        // if (error) {
+        //     const err = new Error(error.details[0].message);
+        //     err.status = 400;
+        //     throw err;
+        // }
+
+        const airport = db.query(db.AirportQuery.createAirport, Object.values(airportData));
+        res.status(201).json(airport.rows[0]);
     } catch (err) {
         err.status = 400;
         next(err);

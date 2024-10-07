@@ -3,3 +3,16 @@ GET http://localhost:3000
 
 ###
 GET http://localhost:3000/airport
+
+
+###
+POST http://localhost:3000/airport
+Content-Type: application/json
+
+{
+    "code": "LAX",
+    "name": "Los Angeles International Airport",
+    "city": "Los Angeles",
+    "country": "United States",
+    "timezone": "PST"
+}

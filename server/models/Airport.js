@@ -1,18 +1,12 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const joi = require('joi');
 
-// Airport Schema
-const AirportSchema = new Schema({
-    code: { type: String, required: true, unique: true, length: 3 },
-    name: { type: String, required: true },
-    city: { type: String, required: true },
-    country: { type: String, required: true },
-    timezone: { type: String, required: true }
+const AirportSchema = joi.object({
+    code: joi.string().required().length(3),
+    name: joi.string().required(),
+    city: joi.string().required(),
+    country: joi.string().required(),
+    timezone: joi.string().required()
 });
-
-const Airport = mongoose.model('Airport', AirportSchema);
-
-module.exports = { Airport };
 
 // Sample Airport Data
 // {
@@ -22,4 +16,6 @@ module.exports = { Airport };
 //     "country": "United States",
 //     "timezone": "PST"
 // }
+
+module.exports = AirportSchema;
 
