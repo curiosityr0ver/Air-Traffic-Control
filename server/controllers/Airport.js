@@ -17,10 +17,11 @@ const getAirports = async (req, res, next) => {
 
 // Get a single airport
 const getAirportById = async (req, res, next) => {
+    const airportId = req.params.id;
     try {
-        const airport = await Airport.findById(req.params.id);
-        if (!airport) return res.status(404).send('Airport not found');
-        res.json(airport);
+        const airport = await db.query(db.AirportQuery.getAirportById, [airportId]);
+        if (airport.rowCount === 0) return res.status(404).send('Airport not found');
+        res.json(airport.rows[0]);
     } catch (err) {
         next(err);
     }
@@ -43,13 +44,17 @@ const createAirport = async (req, res, next) => {
 const updateAirport = async (req, res, next) => {
     const airportData = req.body;
     const airportId = req.params.id;
-    console.log([airportId, ...Object.values(airportData)]);
+
     try {
-        const { error } = Airport.validate(airportData);
+        const currentAirport = await db.query(db.AirportQuery.getAirportById, [airportId]);
+        if (currentAirport.rowCount === 0) return res.status(404).send('Airport not found');
+        const newAirportData = { ...currentAirport.rows[0], ...airportData };
+        const { error } = Airport.validate(newAirportData);
         if (error) throw error;
-        const airport = await db.query(db.AirportQuery.updateAirport, [airportId, ...Object.values(airportData)]);
-        if (airport.rowCount === 0) return res.status(404).send('Airport not found');
-        res.json(airport.rows[0]);
+
+        // // updateAirport: 'UPDATE airports SET name = $2, city = $3, country = $4, timezone = $5 WHERE code = $1 RETURNING *';
+        const updatedAirport = await db.query(db.AirportQuery.updateAirport, [...Object.values(newAirportData)]);
+        res.json(updatedAirport.rows[0]);
     }
     catch (err) {
         next(err);
@@ -58,10 +63,11 @@ const updateAirport = async (req, res, next) => {
 
 // Delete an airport
 const deleteAirport = async (req, res, next) => {
+    const airportId = req.params.id;
     try {
-        const airport = await Airport.findByIdAndDelete(req.params.id);
-        if (!airport) return res.status(404).send('Airport not found');
-        res.json(airport);
+        const airport = await db.query(db.AirportQuery.deleteAirport, [airportId]);
+        if (airport.rowCount === 0) return res.status(404).send('Airport not found');
+        res.json(airport.rows[0]);
     } catch (err) {
         next(err);
     }

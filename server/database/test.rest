@@ -22,8 +22,9 @@ PUT http://localhost:3000/airport/LAX
 Content-Type: application/json
 
 {
+    "code": "LAX",
     "name": "Los Angeles International Airport",
     "city": "Los Angeles",
     "country": "United States Of America",
-    "timezone": "PST"
+    "timezone": "UST"
 }

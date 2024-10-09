@@ -10,6 +10,7 @@
 - [ ] implement rate limiting
 - [ ] store credentials on mongo, and migrate rest to postgres
 - [ ] change error response to be more or less detailed depending on prod or dev
+- [ ] write testcases on postman
 
 ### Long Term
 
